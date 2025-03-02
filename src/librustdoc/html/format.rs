@@ -255,7 +255,6 @@ impl clean::Lifetime {
     }
 }
 
-#[allow(dead_code)]
 impl clean::PreciseCapturingArg {
     fn print(&self) -> impl Display + '_ {
         self.name().as_str()
@@ -297,7 +296,6 @@ impl clean::GenericBound {
                 })?;
                 ty.print(cx).fmt(f)
             }
-            #[allow(unused_variables)]
             clean::GenericBound::Use(args) => {
                 if f.alternate() {
                     f.write_str("use<")?;

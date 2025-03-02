@@ -2382,12 +2382,10 @@ fn clean_middle_opaque_bounds<'tcx>(
         bounds.insert(0, GenericBound::sized(cx));
     }
 
-    #[allow(unused_variables)]
     if let Some(args) = cx.tcx.rendered_precise_capturing_args(impl_trait_def_id) {
-        // bounds.push(GenericBound::Use(
-        //     args.iter().map(|arg| clean_precise_capturing_arg(arg, cx)).collect(),
-        // ));
-        todo!("precise capturing args")
+        bounds.push(GenericBound::Use(
+            args.iter().map(|arg| clean_precise_capturing_arg(arg, cx)).collect(),
+        ));
     }
 
     ImplTrait(bounds)
