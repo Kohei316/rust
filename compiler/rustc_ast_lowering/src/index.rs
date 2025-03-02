@@ -420,10 +420,7 @@ impl<'a, 'hir> Visitor<'hir> for NodeCollector<'a, 'hir> {
         });
     }
 
-    fn visit_precise_capturing_arg(
-        &mut self,
-        arg: &'hir PreciseCapturingArg<'hir>,
-    ) -> Self::Result {
+    fn visit_precise_capturing_arg(&mut self, arg: &'hir PreciseCapturingArg) -> Self::Result {
         match arg {
             PreciseCapturingArg::Lifetime(_) => {
                 // This is represented as a `Node::Lifetime`, intravisit will get to it below.

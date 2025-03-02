@@ -641,12 +641,9 @@ impl<'a, 'tcx> Visitor<'tcx> for BoundVarContext<'a, 'tcx> {
         }
     }
 
-    fn visit_precise_capturing_arg(
-        &mut self,
-        arg: &'tcx hir::PreciseCapturingArg<'tcx>,
-    ) -> Self::Result {
+    fn visit_precise_capturing_arg(&mut self, arg: &'tcx hir::PreciseCapturingArg) -> Self::Result {
         match *arg {
-            hir::PreciseCapturingArg::Lifetime(lt) => match lt.res {
+            hir::PreciseCapturingArg::Lifetime(ref lt) => match lt.res {
                 LifetimeName::Param(def_id) => {
                     self.resolve_lifetime_ref(def_id, lt);
                 }

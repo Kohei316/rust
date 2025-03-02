@@ -35,7 +35,7 @@ use crate::def_id::{DefId, LocalDefIdMap};
 pub(crate) use crate::hir_id::{HirId, ItemLocalId, ItemLocalMap, OwnerId};
 use crate::intravisit::{FnKind, VisitorExt};
 
-#[derive(Debug, Copy, Clone, HashStable_Generic)]
+#[derive(Debug, Copy, Clone, HashStable_Generic, Encodable, Decodable)]
 pub struct Lifetime {
     #[stable_hasher(ignore)]
     pub hir_id: HirId,
@@ -89,7 +89,7 @@ impl ParamName {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, HashStable_Generic)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, HashStable_Generic, Encodable, Decodable)]
 pub enum LifetimeName {
     /// User-given names or fresh (synthetic) names.
     Param(LocalDefId),
@@ -578,7 +578,7 @@ impl TraitBoundModifiers {
 pub enum GenericBound<'hir> {
     Trait(PolyTraitRef<'hir>),
     Outlives(&'hir Lifetime),
-    Use(&'hir [PreciseCapturingArg<'hir>], Span),
+    Use(&'hir [PreciseCapturingArg], Span),
 }
 
 impl GenericBound<'_> {
@@ -3362,14 +3362,14 @@ pub struct OpaqueTy<'hir> {
     pub span: Span,
 }
 
-#[derive(Debug, Clone, Copy, HashStable_Generic)]
-pub enum PreciseCapturingArg<'hir> {
-    Lifetime(&'hir Lifetime),
+#[derive(Debug, Clone, Copy, HashStable_Generic, Encodable, Decodable)]
+pub enum PreciseCapturingArg {
+    Lifetime(Lifetime),
     /// Non-lifetime argument (type or const)
     Param(PreciseCapturingNonLifetimeArg),
 }
 
-impl PreciseCapturingArg<'_> {
+impl PreciseCapturingArg {
     pub fn hir_id(self) -> HirId {
         match self {
             PreciseCapturingArg::Lifetime(lt) => lt.hir_id,
@@ -3389,7 +3389,7 @@ impl PreciseCapturingArg<'_> {
 /// resolution to. Lifetimes don't have this problem, and for them, it's actually
 /// kind of detrimental to use a custom node type versus just using [`Lifetime`],
 /// since resolve_bound_vars operates on `Lifetime`s.
-#[derive(Debug, Clone, Copy, HashStable_Generic)]
+#[derive(Debug, Clone, Copy, HashStable_Generic, Encodable, Decodable)]
 pub struct PreciseCapturingNonLifetimeArg {
     #[stable_hasher(ignore)]
     pub hir_id: HirId,
