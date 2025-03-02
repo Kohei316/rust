@@ -1313,7 +1313,6 @@ pub(crate) enum PreciseCapturingArg {
 }
 
 impl PreciseCapturingArg {
-    #[allow(dead_code)]
     pub(crate) fn name(&self) -> &Symbol {
         match self {
             PreciseCapturingArg::Lifetime(lt) => &lt.0,
