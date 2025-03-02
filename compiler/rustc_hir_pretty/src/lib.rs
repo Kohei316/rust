@@ -2307,9 +2307,9 @@ impl<'a> State<'a> {
         }
     }
 
-    fn print_precise_capturing_arg(&mut self, arg: PreciseCapturingArg<'_>) {
+    fn print_precise_capturing_arg(&mut self, arg: PreciseCapturingArg) {
         match arg {
-            PreciseCapturingArg::Lifetime(lt) => self.print_lifetime(lt),
+            PreciseCapturingArg::Lifetime(lt) => self.print_lifetime(&lt),
             PreciseCapturingArg::Param(arg) => self.print_ident(arg.ident),
         }
     }

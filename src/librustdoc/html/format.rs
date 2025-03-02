@@ -255,6 +255,12 @@ impl clean::Lifetime {
     }
 }
 
+impl clean::PreciseCapturingArg {
+    fn print(&self) -> impl Display + '_ {
+        self.name().as_str()
+    }
+}
+
 impl clean::ConstantKind {
     pub(crate) fn print(&self, tcx: TyCtxt<'_>) -> impl Display + '_ {
         let expr = self.expr(tcx);
@@ -296,7 +302,7 @@ impl clean::GenericBound {
                 } else {
                     f.write_str("use&lt;")?;
                 }
-                args.iter().joined(", ", f)?;
+                args.iter().map(|arg| arg.print()).joined(", ", f)?;
                 if f.alternate() { f.write_str(">") } else { f.write_str("&gt;") }
             }
         })

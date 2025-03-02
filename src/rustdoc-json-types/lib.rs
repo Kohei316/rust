@@ -909,7 +909,7 @@ pub enum GenericBound {
     /// ```
     Outlives(String),
     /// `use<'a, T>` precise-capturing bound syntax
-    Use(Vec<String>),
+    Use(Vec<PreciseCapturingArg>),
 }
 
 /// A set of modifiers applied to a trait.
@@ -925,6 +925,12 @@ pub enum TraitBoundModifier {
     /// Indicates that the trait bound must be applicable in both a run-time and a compile-time
     /// context.
     MaybeConst,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub enum PreciseCapturingArg {
+    Lifetime(String),
+    Param(String),
 }
 
 /// Either a type or a constant, usually stored as the right-hand side of an equation in places like

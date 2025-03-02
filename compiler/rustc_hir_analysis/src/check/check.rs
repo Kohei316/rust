@@ -577,7 +577,7 @@ fn check_opaque_precise_captures<'tcx>(tcx: TyCtxt<'tcx>, opaque_def_id: LocalDe
                 }
                 (hir_id, ident)
             }
-            hir::PreciseCapturingArg::Lifetime(&hir::Lifetime { hir_id, ident, .. }) => {
+            hir::PreciseCapturingArg::Lifetime(hir::Lifetime { hir_id, ident, .. }) => {
                 if let Some(prev_non_lifetime_param) = prev_non_lifetime_param {
                     tcx.dcx().emit_err(errors::LifetimesMustBeFirst {
                         lifetime_span: ident.span,

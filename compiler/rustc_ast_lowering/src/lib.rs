@@ -1484,10 +1484,10 @@ impl<'a, 'hir> LoweringContext<'a, 'hir> {
     fn lower_precise_capturing_args(
         &mut self,
         precise_capturing_args: &[PreciseCapturingArg],
-    ) -> &'hir [hir::PreciseCapturingArg<'hir>] {
+    ) -> &'hir [hir::PreciseCapturingArg] {
         self.arena.alloc_from_iter(precise_capturing_args.iter().map(|arg| match arg {
             PreciseCapturingArg::Lifetime(lt) => {
-                hir::PreciseCapturingArg::Lifetime(self.lower_lifetime(lt))
+                hir::PreciseCapturingArg::Lifetime(*self.lower_lifetime(lt))
             }
             PreciseCapturingArg::Arg(path, id) => {
                 let [segment] = path.segments.as_slice() else {
