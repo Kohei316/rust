@@ -1294,6 +1294,19 @@ impl GenericBound {
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+pub(crate) struct Lifetime(pub Symbol);
+
+impl Lifetime {
+    pub(crate) fn statik() -> Lifetime {
+        Lifetime(kw::StaticLifetime)
+    }
+
+    pub(crate) fn elided() -> Lifetime {
+        Lifetime(kw::UnderscoreLifetime)
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub(crate) enum PreciseCapturingArg {
     Lifetime(Lifetime),
     Param(Symbol),
@@ -1306,18 +1319,6 @@ impl PreciseCapturingArg {
             PreciseCapturingArg::Lifetime(lt) => &lt.0,
             PreciseCapturingArg::Param(param) => param,
         }
-    }
-}
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
-pub(crate) struct Lifetime(pub Symbol);
-
-impl Lifetime {
-    pub(crate) fn statik() -> Lifetime {
-        Lifetime(kw::StaticLifetime)
-    }
-
-    pub(crate) fn elided() -> Lifetime {
-        Lifetime(kw::UnderscoreLifetime)
     }
 }
 
