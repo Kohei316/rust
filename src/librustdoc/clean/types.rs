@@ -1242,7 +1242,7 @@ pub(crate) enum GenericBound {
     TraitBound(PolyTrait, hir::TraitBoundModifiers),
     Outlives(Lifetime),
     /// `use<'a, T>` precise-capturing bound syntax
-    Use(Vec<Symbol>),
+    Use(Vec<PreciseCapturingArg>),
 }
 
 impl GenericBound {
@@ -1293,6 +1293,21 @@ impl GenericBound {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+pub(crate) enum PreciseCapturingArg {
+    Lifetime(Lifetime),
+    Param(Symbol),
+}
+
+impl PreciseCapturingArg {
+    #[allow(dead_code)]
+    pub(crate) fn name(&self) -> &Symbol {
+        match self {
+            PreciseCapturingArg::Lifetime(lt) => &lt.0,
+            PreciseCapturingArg::Param(param) => param,
+        }
+    }
+}
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
 pub(crate) struct Lifetime(pub Symbol);
 

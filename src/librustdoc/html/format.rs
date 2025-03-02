@@ -255,6 +255,13 @@ impl clean::Lifetime {
     }
 }
 
+#[allow(dead_code)]
+impl clean::PreciseCapturingArg {
+    fn print(&self) -> impl Display + '_ {
+        self.name().as_str()
+    }
+}
+
 impl clean::ConstantKind {
     pub(crate) fn print(&self, tcx: TyCtxt<'_>) -> impl Display + '_ {
         let expr = self.expr(tcx);
@@ -290,13 +297,14 @@ impl clean::GenericBound {
                 })?;
                 ty.print(cx).fmt(f)
             }
+            #[allow(unused_variables)]
             clean::GenericBound::Use(args) => {
                 if f.alternate() {
                     f.write_str("use<")?;
                 } else {
                     f.write_str("use&lt;")?;
                 }
-                args.iter().joined(", ", f)?;
+                // args.iter().joined(", ", f)?;
                 if f.alternate() { f.write_str(">") } else { f.write_str("&gt;") }
             }
         })
