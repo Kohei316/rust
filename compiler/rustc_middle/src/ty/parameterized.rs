@@ -3,6 +3,7 @@ use std::hash::Hash;
 use rustc_data_structures::unord::UnordMap;
 use rustc_hir::def_id::DefIndex;
 use rustc_index::{Idx, IndexVec};
+use rustc_span::Symbol;
 
 use crate::ty;
 
@@ -90,7 +91,7 @@ trivially_parameterized_over_tcx! {
     rustc_hir::CoroutineKind,
     rustc_hir::IsAsync,
     rustc_hir::LangItem,
-    rustc_hir::PreciseCapturingArg,
+    rustc_hir::PreciseCapturingArgKind<Symbol,Symbol>,
     rustc_hir::def::DefKind,
     rustc_hir::def::DocLinkResMap,
     rustc_hir::def_id::DefId,
