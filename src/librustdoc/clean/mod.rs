@@ -2384,7 +2384,16 @@ fn clean_middle_opaque_bounds<'tcx>(
 
     if let Some(args) = cx.tcx.rendered_precise_capturing_args(impl_trait_def_id) {
         bounds.push(GenericBound::Use(
-            args.iter().map(|arg| clean_precise_capturing_arg(arg, cx)).collect(),
+            args.iter()
+                .map(|arg| match arg {
+                    hir::PreciseCapturingArgKind::Lifetime(lt) => {
+                        PreciseCapturingArg::Lifetime(Lifetime(*lt))
+                    }
+                    hir::PreciseCapturingArgKind::Param(param) => {
+                        PreciseCapturingArg::Param(*param)
+                    }
+                })
+                .collect(),
         ));
     }
 
