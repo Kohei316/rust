@@ -578,7 +578,7 @@ impl TraitBoundModifiers {
 pub enum GenericBound<'hir> {
     Trait(PolyTraitRef<'hir>),
     Outlives(&'hir Lifetime),
-    Use(&'hir [PreciseCapturingArg], Span),
+    Use(&'hir [PreciseCapturingArg<'hir>], Span),
 }
 
 impl GenericBound<'_> {
@@ -3369,9 +3369,10 @@ pub enum PreciseCapturingArgKind<T, U> {
     Param(U),
 }
 
-pub type PreciseCapturingArg = PreciseCapturingArgKind<Lifetime, PreciseCapturingNonLifetimeArg>;
+pub type PreciseCapturingArg<'hir> =
+    PreciseCapturingArgKind<&'hir Lifetime, PreciseCapturingNonLifetimeArg>;
 
-impl PreciseCapturingArg {
+impl PreciseCapturingArg<'_> {
     pub fn hir_id(self) -> HirId {
         match self {
             PreciseCapturingArg::Lifetime(lt) => lt.hir_id,

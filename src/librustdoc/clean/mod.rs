@@ -287,7 +287,7 @@ fn clean_lifetime(lifetime: &hir::Lifetime, cx: &DocContext<'_>) -> Lifetime {
 }
 
 pub(crate) fn clean_precise_capturing_arg(
-    arg: &hir::PreciseCapturingArg,
+    arg: &hir::PreciseCapturingArg<'_>,
     cx: &DocContext<'_>,
 ) -> PreciseCapturingArg {
     match arg {
