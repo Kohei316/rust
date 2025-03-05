@@ -3363,11 +3363,13 @@ pub struct OpaqueTy<'hir> {
 }
 
 #[derive(Debug, Clone, Copy, HashStable_Generic, Encodable, Decodable)]
-pub enum PreciseCapturingArg {
-    Lifetime(Lifetime),
+pub enum PreciseCapturingArgKind<T, U> {
+    Lifetime(T),
     /// Non-lifetime argument (type or const)
-    Param(PreciseCapturingNonLifetimeArg),
+    Param(U),
 }
+
+pub type PreciseCapturingArg = PreciseCapturingArgKind<Lifetime, PreciseCapturingNonLifetimeArg>;
 
 impl PreciseCapturingArg {
     pub fn hir_id(self) -> HirId {
