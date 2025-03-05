@@ -35,7 +35,7 @@ use crate::def_id::{DefId, LocalDefIdMap};
 pub(crate) use crate::hir_id::{HirId, ItemLocalId, ItemLocalMap, OwnerId};
 use crate::intravisit::{FnKind, VisitorExt};
 
-#[derive(Debug, Copy, Clone, HashStable_Generic, Encodable, Decodable)]
+#[derive(Debug, Copy, Clone, HashStable_Generic)]
 pub struct Lifetime {
     #[stable_hasher(ignore)]
     pub hir_id: HirId,
@@ -89,7 +89,7 @@ impl ParamName {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, HashStable_Generic, Encodable, Decodable)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, HashStable_Generic)]
 pub enum LifetimeName {
     /// User-given names or fresh (synthetic) names.
     Param(LocalDefId),
@@ -3392,7 +3392,7 @@ impl PreciseCapturingArg<'_> {
 /// resolution to. Lifetimes don't have this problem, and for them, it's actually
 /// kind of detrimental to use a custom node type versus just using [`Lifetime`],
 /// since resolve_bound_vars operates on `Lifetime`s.
-#[derive(Debug, Clone, Copy, HashStable_Generic, Encodable, Decodable)]
+#[derive(Debug, Clone, Copy, HashStable_Generic)]
 pub struct PreciseCapturingNonLifetimeArg {
     #[stable_hasher(ignore)]
     pub hir_id: HirId,

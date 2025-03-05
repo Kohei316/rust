@@ -1284,7 +1284,7 @@ pub fn walk_precise_capturing_arg<'v, V: Visitor<'v>>(
     arg: &'v PreciseCapturingArg<'v>,
 ) -> V::Result {
     match *arg {
-        PreciseCapturingArg::Lifetime(ref lt) => visitor.visit_lifetime(lt),
+        PreciseCapturingArg::Lifetime(lt) => visitor.visit_lifetime(lt),
         PreciseCapturingArg::Param(param) => visitor.visit_id(param.hir_id),
     }
 }

@@ -646,7 +646,7 @@ impl<'a, 'tcx> Visitor<'tcx> for BoundVarContext<'a, 'tcx> {
         arg: &'tcx hir::PreciseCapturingArg<'tcx>,
     ) -> Self::Result {
         match *arg {
-            hir::PreciseCapturingArg::Lifetime(ref lt) => match lt.res {
+            hir::PreciseCapturingArg::Lifetime(lt) => match lt.res {
                 LifetimeName::Param(def_id) => {
                     self.resolve_lifetime_ref(def_id, lt);
                 }
