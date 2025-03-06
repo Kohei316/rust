@@ -927,9 +927,13 @@ pub enum TraitBoundModifier {
     MaybeConst,
 }
 
+/// One precise capturing argument.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum PreciseCapturingArg {
+    /// A lifetime.
     Lifetime(String),
+    /// A non-lifetime argument such as a generic parameter or a constant parameter.
     Param(String),
 }
 
