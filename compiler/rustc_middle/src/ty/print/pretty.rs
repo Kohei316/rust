@@ -577,8 +577,16 @@ pub trait PrettyPrinter<'tcx>: Printer<'tcx> + fmt::Write {
         }
 
         let actual_parent = self.tcx().opt_parent(def_id);
+        debug!(
+            "try_print_visible_def_path: visible_parent={:?} actual_parent={:?}",
+            visible_parent, actual_parent,
+        );
 
         let mut data = cur_def_key.disambiguated_data.data;
+        debug!(
+            "try_print_visible_def_path: data={:?} visible_parent={:?} actual_parent={:?}",
+            data, visible_parent, actual_parent,
+        );
 
         match data {
             // In order to output a path that could actually be imported (valid and visible),
@@ -637,6 +645,7 @@ pub trait PrettyPrinter<'tcx>: Printer<'tcx> + fmt::Write {
             }
             _ => {}
         }
+        debug!("try_print_visible_def_path: data={:?}", data);
 
         if callers.contains(&visible_parent) {
             return Ok(false);
@@ -2183,6 +2192,7 @@ impl<'t> TyCtxt<'t> {
     ) -> String {
         let def_id = def_id.into_query_param();
         let ns = guess_def_namespace(self, def_id);
+        debug!("def_path_str: def_id={:?}, ns={:?}", def_id, ns);
 
         FmtPrinter::print_string(self, ns, |cx| cx.print_def_path(def_id, args)).unwrap()
     }
@@ -2217,7 +2227,6 @@ impl<'tcx> Printer<'tcx> for FmtPrinter<'_, 'tcx> {
         def_id: DefId,
         args: &'tcx [GenericArg<'tcx>],
     ) -> Result<(), PrintError> {
-        debug!("print_def_path: def_id={:?}, args={:?}", def_id, args);
         if args.is_empty() {
             match self.try_print_trimmed_def_path(def_id)? {
                 true => return Ok(()),
@@ -2231,7 +2240,6 @@ impl<'tcx> Printer<'tcx> for FmtPrinter<'_, 'tcx> {
         }
 
         let key = self.tcx.def_key(def_id);
-        debug!("print_def_path: def_id={:?}, key={:?}", def_id, key);
         if let DefPathData::Impl = key.disambiguated_data.data {
             // Always use types for non-local impls, where types are always
             // available, and filename/line-number is mostly uninteresting.
